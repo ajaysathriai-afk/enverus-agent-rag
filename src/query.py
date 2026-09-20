@@ -23,7 +23,7 @@ def ask(question, k=4):
 
     context = "\n\n---\n\n".join(retrieved_chunks)
 
-    prompt = f"""Answer the question using ONLY the context below. If the answer isn't in the context, say so.
+    prompt = f"""Answer the question using ONLY the context below. Some retrieved text may contain extraction artifacts (words merged without spaces, e.g. "otheheavymanualeffort" instead of "the heavy manual effort") due to PDF formatting. If you notice such garbled text, do your best to interpret its likely meaning before concluding the answer isn't present. Only say the answer isn't in the context if you're confident no relevant information exists after this consideration.
 
 Context:
 {context}
