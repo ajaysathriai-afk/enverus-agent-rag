@@ -16,7 +16,23 @@ A Retrieval-Augmented Generation (RAG) chatbot built on the paper "Agent-as-a-Ju
 
 ## Architecture
 
-See [workflow.md](./workflow.md) for the full RAG pipeline diagram (PDF → chunking → embedding → ChromaDB → retrieval → GPT-4o-mini generation).
+The diagram below shows the full RAG pipeline (also available in [workflow.md](./workflow.md)):
+
+```mermaid
+flowchart TD
+    A[📄 PDF: Agent-as-a-Judge paper] --> B[Extract text using pypdf]
+    B --> C[Chunk text: 1000 chars, 150 overlap]
+    C --> D[Generate embeddings: OpenAI text-embedding-3-small]
+    D --> E[(Store in ChromaDB<br/>Persistent Vector Store)]
+
+    F[❓ User Question] --> G[Embed question:<br/>same embedding model]
+    G --> H[Query ChromaDB:<br/>top-k similarity search]
+    E --> H
+    H --> I[Retrieve top-4 relevant chunks]
+    I --> J[Construct prompt:<br/>context + question]
+    J --> K[GPT-4o-mini generates answer]
+    K --> L[✅ Answer + source chunks<br/>returned to user]
+```
 
 ## Notes
 
